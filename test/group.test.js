@@ -1,4 +1,4 @@
-const group = require('../src/group')
+const group = require('./../src/group')
 
 test('should return an empty object when getting an empty list as parameter', () => {
 
