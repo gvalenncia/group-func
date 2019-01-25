@@ -2,7 +2,7 @@
 
 This is a nodejs application that implements a method to group
 a set of lists, given a sorting criteria: date and timezone.
-It is uses [Rambda](https://ramdajs.com/) functional library to implement it.
+It has been used [Rambda](https://ramdajs.com/) functional library in the implementation.
 
 ## Execution
 
