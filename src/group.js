@@ -1,17 +1,21 @@
 const R = require('ramda');
 
-module.exports.groupListByDate = function (input) {
-    if(input && input.length>0) {
+module.exports.groupByDateAndStripe = function (input) {
+
+    if(input && input.length>0){
         let sInput = R.sortWith([R.ascend(R.prop(0)), R.ascend(R.prop(1))], input);
-        let gsInput = R.groupWith((a, b) => a[0] === b[0], sInput);
 
-        const groupDates = (acc, array) => acc.concat({stripe: array[0][1], value: array[0][3]});
-        const fnKey = (array) => array[0][0];
-        let rgsSinput = R.reduceBy(groupDates, [], fnKey, gsInput);
+        const groupDates = (acc, element) => acc.concat({key: element[1], value: element[3]});
+        const fnKeyDate = (list) => list[0];
+        let dates = R.reduceBy(groupDates, [], fnKeyDate, sInput);
 
-        console.log(rgsSinput);
+        dates = R.map(stripes => {
+            const groupStripes = (acc, stripe) => acc.concat(stripe.value);
+            const fnKeyStripe = (stripe) => stripe.key;
+            return R.reduceBy(groupStripes, [], fnKeyStripe, stripes);
+        } ,dates);
 
-        return {};
+        return R.map(stripes => R.map(key => R.sum(key), stripes), dates);
     } else {
         return {};
     }
